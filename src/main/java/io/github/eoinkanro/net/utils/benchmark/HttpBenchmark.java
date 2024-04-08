@@ -4,10 +4,8 @@ import io.github.eoinkanro.commons.utils.CliArgumentUtils;
 import io.github.eoinkanro.commons.utils.model.CliArgument;
 import io.github.eoinkanro.net.utils.benchmark.model.BenchmarkCallable;
 import io.github.eoinkanro.net.utils.benchmark.model.BenchmarkData;
-import io.github.eoinkanro.net.utils.core.model.Constant;
+import io.github.eoinkanro.net.utils.core.ActionExecutor;
 import io.github.eoinkanro.net.utils.core.utils.Printer;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -16,8 +14,7 @@ import java.util.concurrent.FutureTask;
 
 import static io.github.eoinkanro.net.utils.benchmark.model.CliArguments.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class HttpBenchmark {
+public class HttpBenchmark extends ActionExecutor {
 
     private static final String LINE_DELIMITER = "---------------------------------------";
 
@@ -31,12 +28,8 @@ public class HttpBenchmark {
     private static final String PERCENTILE_FORMAT = "%-10s | %-11s";
     private static final String STATUS_FORMAT = "%-10s";
 
-    public static void run() {
-        if (!isArgumentsFine()) {
-            printHelp();
-            return;
-        }
-
+    @Override
+    protected void execute() throws Exception {
         Printer.println("Starting http benchmark...");
         int threads = CliArgumentUtils.getArgument(THREAD_ARGUMENT);
         ExecutorService executorService = Executors.newFixedThreadPool(threads);
@@ -55,11 +48,6 @@ public class HttpBenchmark {
                 result.add(task.get());
             }
 
-        } catch (InterruptedException e) {
-            Printer.println(Arrays.toString(e.getStackTrace()));
-            Thread.currentThread().interrupt();
-        } catch (Exception e) {
-            Printer.println(Arrays.toString(e.getStackTrace()));
         } finally {
             executorService.shutdownNow();
         }
@@ -67,30 +55,20 @@ public class HttpBenchmark {
         printBenchmarkResult(result);
     }
 
-    /**
-     * Check if all arguments are presented
-     */
-    private static boolean isArgumentsFine() {
-        for (CliArgument<?> arg : ALL_ARGUMENTS) {
-            if (CliArgumentUtils.getArgument(arg) == null) {
-                return false;
-            }
-        }
-        return true;
+    @Override
+    protected List<CliArgument<?>> getNecessaryArguments() {
+        return getAllArguments();
     }
 
-    /**
-     * Print help of all used arguments
-     */
-    private static void printHelp() {
-        Printer.println(Constant.HELP_AVAILABLE_ARGUMENTS);
-        ALL_ARGUMENTS.forEach(arg -> Printer.println(arg.getHelp()));
+    @Override
+    protected List<CliArgument<?>> getAllArguments() {
+        return ALL_ARGUMENTS;
     }
 
     /**
      * Print result of benchmark
      */
-    private static void printBenchmarkResult(List<BenchmarkData> result) {
+    private void printBenchmarkResult(List<BenchmarkData> result) {
         List<Long> responsesMs = new LinkedList<>();
         result.forEach(data -> responsesMs.addAll(data.getResponseMs()));
         Collections.sort(responsesMs);
@@ -141,7 +119,7 @@ public class HttpBenchmark {
      * @param responsesMs  all responses ms
      * @return  avg
      */
-    private static long getAvg(List<Long> responsesMs) {
+    private long getAvg(List<Long> responsesMs) {
         long avg = 0;
         for (Long ms : responsesMs) {
             avg += ms;
@@ -157,7 +135,7 @@ public class HttpBenchmark {
      * @param percentile   percentile
      * @return             percentile ms
      */
-    private static long getPercentile(List<Long> responsesMs, double percentile) {
+    private long getPercentile(List<Long> responsesMs, double percentile) {
         return responsesMs.get((int) Math.round(percentile / 100.0 * (responsesMs.size() - 1)));
     }
 
@@ -167,7 +145,7 @@ public class HttpBenchmark {
      * @param result result of executing
      * @return all statuses from result
      */
-    private static Map<Integer, Long> calculateStatuses(List<BenchmarkData> result) {
+    private Map<Integer, Long> calculateStatuses(List<BenchmarkData> result) {
         Map<Integer, Long> statuses = new HashMap<>();
 
         result.forEach(r ->

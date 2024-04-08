@@ -5,6 +5,7 @@ import io.github.eoinkanro.commons.utils.model.CliArgument;
 import io.github.eoinkanro.net.utils.benchmark.HttpBenchmark;
 import io.github.eoinkanro.net.utils.core.model.Constant;
 import io.github.eoinkanro.net.utils.core.utils.Printer;
+import io.github.eoinkanro.net.utils.interfaces.InterfacesTester;
 import io.github.eoinkanro.net.utils.mtu.MtuTester;
 
 import java.util.Arrays;
@@ -15,7 +16,7 @@ public class NetUtilsApplication {
             .key("action")
             .castFunction(Action::valueOf)
             .referenceClass(Action.class)
-            .description("available functions of the program. Example: " + Arrays.toString(Action.values()))
+            .description("Available functions of the program. Example: " + Arrays.toString(Action.values()))
             .build();
 
     public static void main(String[] args) {
@@ -24,12 +25,13 @@ public class NetUtilsApplication {
 
         if (action == null) {
             printHelp();
+            return;
         }
 
-        if (action == Action.BENCHMARK) {
-            HttpBenchmark.run();
-        } else if (action == Action.MTU) {
-            MtuTester.run();
+        switch (action) {
+            case BENCHMARK -> new HttpBenchmark().run();
+            case MTU -> new MtuTester().run();
+            case INTERFACES -> new InterfacesTester().run();
         }
     }
 
@@ -40,6 +42,7 @@ public class NetUtilsApplication {
 
     private enum Action {
         MTU,
+        INTERFACES,
         BENCHMARK
     }
 

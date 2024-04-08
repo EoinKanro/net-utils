@@ -2,7 +2,7 @@ package io.github.eoinkanro.net.utils.benchmark.model;
 
 import io.github.eoinkanro.commons.utils.model.CliArgument;
 import io.github.eoinkanro.commons.utils.model.CliArgumentCastFunctions;
-import io.github.eoinkanro.net.utils.core.model.CastFunctions;
+import io.github.eoinkanro.net.utils.core.model.Constant;
 import io.github.eoinkanro.net.utils.core.model.HttpMethod;
 import io.github.eoinkanro.net.utils.core.utils.TimeConverter;
 import lombok.AccessLevel;
@@ -22,7 +22,7 @@ public class CliArguments {
 
     public static final CliArgument<HttpMethod> HTTP_METHOD_ARGUMENT = CliArgument.<HttpMethod>builder()
             .key("method")
-            .castFunction(CastFunctions.TO_HTTP_METHOD)
+            .castFunction(Constant.TO_HTTP_METHOD)
             .referenceClass(HttpMethod.class)
             .description("Request method")
             .build();
