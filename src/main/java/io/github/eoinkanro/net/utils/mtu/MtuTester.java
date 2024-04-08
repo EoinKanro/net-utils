@@ -31,8 +31,8 @@ public class MtuTester {
         }
 
         Printer.println("Starting mtu tester...");
-
         int maxMtu = 0;
+
         try {
             for (int i = START; i <= END; i += STEP) {
                 maxMtu = i;
@@ -43,8 +43,7 @@ public class MtuTester {
                 process.waitFor();
 
                 int result = process.exitValue();
-                //TODO
-                if ((isWindows() && result == 1) || (!isWindows() && result == 0)) {
+                if (result != 0) {
                     if (i == START) {
                         maxMtu = -1;
                     } else {
@@ -84,17 +83,12 @@ public class MtuTester {
     }
 
     private static List<String> getCommands(int mtu) {
-        //TODO
         int packageSize = mtu - PING_HEADER_SIZE;
-        if (isWindows()) {
+        if (SystemUtils.getOsType() == OsType.WINDOWS) {
             return Arrays.asList("ping", "-w", "1000", "-n", "1", "-f", "-l", String.valueOf(packageSize), IP);
         } else {
-            return Arrays.asList();
+            return Arrays.asList("ping", "-M", "do", "-s", String.valueOf(packageSize), "-c", "1", IP);
         }
-    }
-
-    private static boolean isWindows() {
-        return SystemUtils.getOsType() == OsType.WINDOWS;
     }
 
 }
