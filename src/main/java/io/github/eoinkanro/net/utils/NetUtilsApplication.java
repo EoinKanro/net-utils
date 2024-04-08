@@ -7,6 +7,8 @@ import io.github.eoinkanro.net.utils.core.model.Constant;
 import io.github.eoinkanro.net.utils.core.utils.Printer;
 import io.github.eoinkanro.net.utils.mtu.MtuTester;
 
+import java.util.Arrays;
+
 public class NetUtilsApplication {
 
     private static final CliArgument<Action> ARGUMENT_ACTION = CliArgument.<Action>builder()
@@ -21,7 +23,7 @@ public class NetUtilsApplication {
         Action action = CliArgumentUtils.getArgument(ARGUMENT_ACTION);
 
         if (action == null) {
-            printError();
+            printHelp();
         }
 
         if (action == Action.BENCHMARK) {
@@ -31,9 +33,10 @@ public class NetUtilsApplication {
         }
     }
 
-    private static void printError() {
+    private static void printHelp() {
         Printer.println(Constant.HELP_AVAILABLE_ARGUMENTS);
         Printer.println(ARGUMENT_ACTION.getHelp());
+        Printer.println(Arrays.toString(Action.values()));
     }
 
     private enum Action {
