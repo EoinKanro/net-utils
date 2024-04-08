@@ -15,7 +15,7 @@ public class NetUtilsApplication {
             .key("action")
             .castFunction(Action::valueOf)
             .referenceClass(Action.class)
-            .description("available functions of the program")
+            .description("available functions of the program. Example: " + Arrays.toString(Action.values()))
             .build();
 
     public static void main(String[] args) {
@@ -36,7 +36,6 @@ public class NetUtilsApplication {
     private static void printHelp() {
         Printer.println(Constant.HELP_AVAILABLE_ARGUMENTS);
         Printer.println(ARGUMENT_ACTION.getHelp());
-        Printer.println(Arrays.toString(Action.values()));
     }
 
     private enum Action {
