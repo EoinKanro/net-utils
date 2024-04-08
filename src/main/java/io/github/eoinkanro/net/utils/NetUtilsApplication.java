@@ -5,6 +5,7 @@ import io.github.eoinkanro.commons.utils.model.CliArgument;
 import io.github.eoinkanro.net.utils.benchmark.HttpBenchmark;
 import io.github.eoinkanro.net.utils.core.model.Constant;
 import io.github.eoinkanro.net.utils.core.utils.Printer;
+import io.github.eoinkanro.net.utils.mtu.MtuTester;
 
 public class NetUtilsApplication {
 
@@ -22,8 +23,11 @@ public class NetUtilsApplication {
         if (action == null) {
             printError();
         }
+
         if (action == Action.BENCHMARK) {
             HttpBenchmark.run();
+        } else if (action == Action.MTU) {
+            MtuTester.run();
         }
     }
 
