@@ -41,6 +41,23 @@ public class CliArguments {
             .defaultValue(2)
             .build();
 
-    public static final List<CliArgument<?>> ALL_ARGUMENTS = List.of(IP_ARGUMENT, START_ARGUMENT,
+    public static final CliArgument<Boolean> SETUP_ARGUMENT = CliArgument.<Boolean>builder()
+            .key("setup")
+            .castFunction(CliArgumentCastFunctions.TO_BOOLEAN)
+            .referenceClass(Boolean.class)
+            .description("Setup mtu to interfaces")
+            .defaultValue(false)
+            .build();
+
+    public static final CliArgument<List<String>> INTERFACES_ARGUMENT = CliArgument.<List<String>>builder()
+            .key("interfaces")
+            .castFunction(CliArgumentCastFunctions.TO_LIST)
+            .referenceClass((Class<List<String>>) ((Class)List.class))
+            .description("Interfaces to setup. Example: Wi-Fi,Ethernet 2")
+            .build();
+
+    public static final List<CliArgument<?>> NECESSARY_ARGUMENTS = List.of(IP_ARGUMENT, START_ARGUMENT,
             END_ARGUMENT, STEP_ARGUMENT);
+    public static final List<CliArgument<?>> ALL_ARGUMENTS = List.of(IP_ARGUMENT, START_ARGUMENT,
+            END_ARGUMENT, STEP_ARGUMENT, SETUP_ARGUMENT, INTERFACES_ARGUMENT);
 }
