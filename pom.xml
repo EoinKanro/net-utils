@@ -25,7 +25,7 @@
         <dependency>
             <groupId>io.github.eoinkanro</groupId>
             <artifactId>commons</artifactId>
-            <version>0.0.7</version>
+            <version>0.0.8</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

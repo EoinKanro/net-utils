@@ -9,11 +9,12 @@ import io.github.eoinkanro.net.utils.interfaces.InterfacesTester;
 import io.github.eoinkanro.net.utils.mtu.MtuTester;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class NetUtilsApplication {
 
     private static final CliArgument<Action> ARGUMENT_ACTION = CliArgument.<Action>builder()
-            .key("action")
+            .keys(List.of("action", "A"))
             .castFunction(Action::valueOf)
             .referenceClass(Action.class)
             .description("Available functions of the program. Example: " + Arrays.toString(Action.values()))

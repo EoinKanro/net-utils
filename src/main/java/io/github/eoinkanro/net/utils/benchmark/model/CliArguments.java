@@ -14,21 +14,21 @@ import java.util.List;
 public class CliArguments {
 
     public static final CliArgument<String> URL_ARGUMENT = CliArgument.<String>builder()
-            .key("url")
+            .keys(List.of("url"))
             .castFunction(CliArgumentCastFunctions.TO_STRING)
             .referenceClass(String.class)
             .description("Request url")
             .build();
 
     public static final CliArgument<HttpMethod> HTTP_METHOD_ARGUMENT = CliArgument.<HttpMethod>builder()
-            .key("method")
+            .keys(List.of("method", "M"))
             .castFunction(Constant.TO_HTTP_METHOD)
             .referenceClass(HttpMethod.class)
             .description("Request method")
             .build();
 
     public static final CliArgument<String> BODY_ARGUMENT = CliArgument.<String>builder()
-            .key("body")
+            .keys(List.of("body", "B"))
             .castFunction(CliArgumentCastFunctions.TO_STRING)
             .referenceClass(String.class)
             .description("Request body")
@@ -36,7 +36,7 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<Integer> THREAD_ARGUMENT = CliArgument.<Integer>builder()
-            .key("thread")
+            .keys(List.of("thread", "TH"))
             .castFunction(CliArgumentCastFunctions.TO_INT)
             .referenceClass(Integer.class)
             .description("Parallel request threads amount")
@@ -44,14 +44,14 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<Long> REQUESTS_ARGUMENT = CliArgument.<Long>builder()
-            .key("requests")
+            .keys(List.of("requests", "R"))
             .castFunction(CliArgumentCastFunctions.TO_LONG)
             .referenceClass(Long.class)
             .description("Requests amount per second per thread")
             .build();
 
     public static final CliArgument<Long> DURATION_ARGUMENT = CliArgument.<Long>builder()
-            .key("duration")
+            .keys(List.of("duration", "D"))
             .castFunction(TimeConverter::formattedStringToLongMs)
             .referenceClass(Long.class)
             .description("Duration of test. Example: 1M")
@@ -59,7 +59,7 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<Long> TIMEOUT_ARGUMENT = CliArgument.<Long>builder()
-            .key("timeout")
+            .keys(List.of("timeout", "TI"))
             .castFunction(TimeConverter::formattedStringToLongMs)
             .referenceClass(Long.class)
             .description("Timeout of requests. Example: 10S")

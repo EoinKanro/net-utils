@@ -11,14 +11,14 @@ import java.util.List;
 public class CliArguments {
 
     public static final CliArgument<String> IP_ARGUMENT = CliArgument.<String>builder()
-            .key("ip")
+            .keys(List.of("ip"))
             .castFunction(CliArgumentCastFunctions.TO_STRING)
             .referenceClass(String.class)
             .description("IP of host to ping")
             .build();
 
     public static final CliArgument<Integer> START_ARGUMENT = CliArgument.<Integer>builder()
-            .key("start")
+            .keys(List.of("start", "ST"))
             .castFunction(CliArgumentCastFunctions.TO_INT)
             .referenceClass(Integer.class)
             .description("Low limit of mtu")
@@ -26,7 +26,7 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<Integer> END_ARGUMENT = CliArgument.<Integer>builder()
-            .key("end")
+            .keys(List.of("end", "E"))
             .castFunction(CliArgumentCastFunctions.TO_INT)
             .referenceClass(Integer.class)
             .description("Max limit of mtu")
@@ -34,7 +34,7 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<Integer> STEP_ARGUMENT = CliArgument.<Integer>builder()
-            .key("step")
+            .keys(List.of("step", "SP"))
             .castFunction(CliArgumentCastFunctions.TO_INT)
             .referenceClass(Integer.class)
             .description("Step of mtu")
@@ -42,7 +42,7 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<Boolean> SETUP_ARGUMENT = CliArgument.<Boolean>builder()
-            .key("setup")
+            .keys(List.of("setup", "SE"))
             .castFunction(CliArgumentCastFunctions.TO_BOOLEAN)
             .referenceClass(Boolean.class)
             .description("Setup mtu to interfaces")
@@ -50,7 +50,7 @@ public class CliArguments {
             .build();
 
     public static final CliArgument<List<String>> INTERFACES_ARGUMENT = CliArgument.<List<String>>builder()
-            .key("interfaces")
+            .keys(List.of("interfaces", "I"))
             .castFunction(CliArgumentCastFunctions.TO_LIST)
             .referenceClass((Class<List<String>>) ((Class)List.class))
             .description("Interfaces to setup. Example: Wi-Fi,Ethernet 2")

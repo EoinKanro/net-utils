@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class ActionExecutor {
 
     private static final CliArgument<Boolean> HELP_ARGUMENT = CliArgument.<Boolean>builder()
-            .key("help")
+            .keys(List.of("help", "H"))
             .referenceClass(Boolean.class)
             .castFunction(CliArgumentCastFunctions.TO_BOOLEAN)
             .description("Print help")
